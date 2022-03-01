@@ -1,0 +1,19 @@
+FROM node:16
+
+WORKDIR /app
+
+ENV NODE_ENV=development
+ENV HTTPS=true
+ENV PORT=443
+ENV SSL_CRT_FILE=./.cert/cert.pem
+ENV SSL_KEY_FILE=./.cert/key.pem
+ENV COMPOSE_HTTP_TIMEOUT=180
+
+RUN echo "fs.inotify.max_user_watches=524288" >> /etc/sysctl.conf
+
+COPY package*.json ./
+RUN npm install
+COPY . .
+
+USER root
+CMD ./node_modules/.bin/craco start

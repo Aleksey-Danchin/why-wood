@@ -1,0 +1,12 @@
+FROM node:16
+
+WORKDIR /app
+ENV NODE_ENV=development
+
+COPY package*.json ./
+RUN npm install
+RUN npm install -g @babel/cli @babel/core @babel/node nodemon jest
+COPY . .
+
+USER root
+CMD ["nodemon", "app.ts"]
